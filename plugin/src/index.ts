@@ -10,6 +10,7 @@ const withLiveActivities: ConfigPlugin<{
   deploymentTarget?: string;
   moduleFileName?: string;
   attributesFileName?: string;
+  bundleIdentifierSufix?: string;
 }> = (
   config,
   {
@@ -18,12 +19,13 @@ const withLiveActivities: ConfigPlugin<{
     deploymentTarget = "16.2",
     moduleFileName = "Module.swift",
     attributesFileName = "Attributes.swift",
+    bundleIdentifierSufix,
   }
 ) => {
   const targetName = `${IOSConfig.XcodeUtils.sanitizedName(
     config.name
   )}Widgets`;
-  const bundleIdentifier = `${config.ios?.bundleIdentifier}.${targetName}`;
+  const bundleIdentifier = `${config.ios?.bundleIdentifier}.${bundleIdentifierSufix ?? targetName}`;
 
   config.ios = {
     ...config.ios,
