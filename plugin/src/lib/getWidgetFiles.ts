@@ -73,12 +73,6 @@ export function getWidgetFiles(
     );
   });
 
-  // Copy directories
-  widgetFiles.assetDirectories.forEach((directory) => {
-    const imagesXcassetsSource = path.join(widgetsPath, directory);
-    copyFolderRecursiveSync(imagesXcassetsSource, targetPath);
-  });
-
   return widgetFiles;
 }
 
