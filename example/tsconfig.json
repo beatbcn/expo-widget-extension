@@ -1,0 +1,10 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@beatbcn/expo-widget-extension": ["../src/index"],
+      "@beatbcn/expo-widget-extension/*": ["../src/*"]
+    }
+  }
+}
