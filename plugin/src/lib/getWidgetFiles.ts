@@ -7,6 +7,7 @@ export type WidgetFiles = {
   plistFiles: string[];
   assetDirectories: string[];
   intentFiles: string[];
+  typeDefs: string[];
   otherFiles: string[];
 };
 
@@ -22,6 +23,7 @@ export function getWidgetFiles(
     plistFiles: [],
     assetDirectories: [],
     intentFiles: [],
+    typeDefs: [],
     otherFiles: [],
   };
 
@@ -47,6 +49,8 @@ export function getWidgetFiles(
         widgetFiles.assetDirectories.push(file);
       } else if (fileExtension === "intentdefinition") {
         widgetFiles.intentFiles.push(file);
+      } else if (fileExtension === "d.ts") {
+        widgetFiles.typeDefs.push(file);
       } else {
         widgetFiles.otherFiles.push(file);
       }
@@ -62,6 +66,12 @@ export function getWidgetFiles(
     path.join(widgetsPath, attributesFileName),
     path.join(modulePath, "Attributes.swift")
   );
+  widgetFiles.typeDefs.forEach((typeDef) => {
+    copyFileSync(
+      path.join(widgetsPath, typeDef),
+      path.join(modulePath, typeDef)
+    );
+  });
 
   // Copy directories
   widgetFiles.assetDirectories.forEach((directory) => {
