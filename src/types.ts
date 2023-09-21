@@ -1,1 +1,1 @@
-export type ExpoWidgetExtension = any;
+export type ExpoWidgetExtension = any

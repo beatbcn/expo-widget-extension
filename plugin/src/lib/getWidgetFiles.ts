@@ -49,7 +49,7 @@ export function getWidgetFiles(
         widgetFiles.assetDirectories.push(file);
       } else if (fileExtension === "intentdefinition") {
         widgetFiles.intentFiles.push(file);
-      } else if (fileExtension === "d.ts") {
+      } else if (fileExtension === "ts") {
         widgetFiles.typeDefs.push(file);
       } else {
         widgetFiles.otherFiles.push(file);
@@ -57,19 +57,20 @@ export function getWidgetFiles(
     });
   }
   // Copy Module.swift and Attributes.swift
-  const modulePath = path.join(__dirname, "../../../ios");
+  const iosModulePath = path.join(__dirname, "../../../ios");
+  const tsModulePath = path.join(__dirname, "../../../src");
   copyFileSync(
     path.join(widgetsPath, moduleFileName),
-    path.join(modulePath, "Module.swift")
+    path.join(iosModulePath, "Module.swift")
   );
   copyFileSync(
     path.join(widgetsPath, attributesFileName),
-    path.join(modulePath, "Attributes.swift")
+    path.join(iosModulePath, "Attributes.swift")
   );
   widgetFiles.typeDefs.forEach((typeDef) => {
     copyFileSync(
       path.join(widgetsPath, typeDef),
-      path.join(modulePath, typeDef)
+      path.join(tsModulePath, typeDef)
     );
   });
 
@@ -84,23 +85,4 @@ export function copyFileSync(source: string, target: string) {
   }
 
   fs.writeFileSync(targetFile, fs.readFileSync(source));
-}
-
-function copyFolderRecursiveSync(source: string, target: string) {
-  const targetPath = path.join(target, path.basename(source));
-  if (!fs.existsSync(targetPath)) {
-    fs.mkdirSync(targetPath, { recursive: true });
-  }
-
-  if (fs.lstatSync(source).isDirectory()) {
-    const files = fs.readdirSync(source);
-    files.forEach((file) => {
-      const currentPath = path.join(source, file);
-      if (fs.lstatSync(currentPath).isDirectory()) {
-        copyFolderRecursiveSync(currentPath, targetPath);
-      } else {
-        copyFileSync(currentPath, targetPath);
-      }
-    });
-  }
 }
